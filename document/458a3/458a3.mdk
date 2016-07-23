@@ -39,9 +39,30 @@ protection for our data, which is **FW2**
 
 # Question 2
 
-``` 
-  SELECT SUM(Gold) FROM Players where sercer = PVE
+## 
+**Assumption:** players among PVE and PVP servers are almost evenly distributed. so
 ```
+  SELECT * FROM Players where Server = PVE
+  SELECT * FROM Players where Server = PVP
+```
+will fall between $k$ to $N-k$ since  $\frac{1}{8} < \frac{1}{2} < 1-\frac{1}{8}$
+
+
+**Tracker:** 
+``` 
+  SELECT SUM(Gold) FROM Players where Server = PVE
+```
+
+**Three queries:**
+``` 
+  q( C or T )    = SELECT SUM(Gold) FROM Players where Server = PVE or Username = XdarksephirothX
+  q( C or not T) = SELECT SUM(Gold) FROM Players where Server = PVP or Username = XdarksephirothX
+  q( S )         = SELECT SUM(Gold) FROM Players
+  XdarksephirothX's gold =  q( C or T ) +q( C or not T) + q( S ) 
+```
+
+## 
+
 
 
 # Content
