@@ -16,9 +16,10 @@ Doc class     : [7pt]article
 ## 
 Figure as below
 ~ Figure { #distributed system; caption:"distributed movie web design "; page-align:here }
-![distributed web system]
+![webdesign]
 ~
-[distributed web system]: images/distributed-web-system.png "distributed web system" { width:auto; max-width:120% }
+[webdesign]: images/webdesign.png "webdesign" { width:auto; max-width:120% }
+
 
 
 ## 
@@ -78,8 +79,10 @@ it currently unclear what judge has that authority.
 
 
 ## 
- 
 
+p2p mask ip
+proxy to hide ip address and identity
+ In other words, if you can’t delete all you online info, you can create several identities and create as much confusion as possible surrounding who you really are.
 
 ## 
 cloud service, encryption, computer security
@@ -90,6 +93,13 @@ In cases involving so-called botnets -- networks of computers secretly running
 malicious software without their owners' knowledge -- the FBI could be remotely 
 accessing scores or hundreds of victims' computers, Wyden says.
 If the amendment finally gives the permission for searching outside the country, Canada may be affected.
+
+When you're letting the government to get a single warrant to hack into an unnumbered amount of computers across 
+immeasurable districts, you're not talking about a 
+
+
+FBI last summer about federal law enforcement's use of spyware, software that can be surreptitiously installed on Americans' 
+devices to track their activity, in the context of the FBI seeking the changes to Rule 41 to let spyware be deployed more easily.
 
 ## 
 
