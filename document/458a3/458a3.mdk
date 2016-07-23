@@ -61,35 +61,58 @@ will fall between $k$ to $N-k$ since  $\frac{1}{8} < \frac{1}{2} < 1-\frac{1}{8}
   XdarksephirothX's gold =  q( C or T ) +q( C or not T) + q( S ) 
 ```
 
+
+# Question 3
 ## 
 
+1. he problem with current rules, DOJ says, is that judges can only issue warrants to search property in their districts,
+ or in crimes that involve their districts.
+When a computer or device involved in a crime is from an unknown or concealed location, 
+investigators should be able to get a warrant to remotely search the devices from any magistrate judge in the country, the rule change says.
+
+2. This amendment ensures that courts can be asked to review warrant applications in situations where is 
+it currently unclear what judge has that authority. 
+
+3. Regarding botnets, DOJ says it needs the change to be able to effectively bring down the malicious networks without having to go to judges all over the country in a time-consuming process.
 
 
-# Content
 
-A definition of $e$ is shown in Equation [#euler] proved by Theorem [#th-euler]:
+## 
+ 
 
-~ Equation { #euler }
-e = \lim_{n\to\infty} \left( 1 + \frac{1}{n} \right)^n
-~
 
-~ Theorem {#th-euler; caption:"Euler's theorem" }
-More math here.
-~
+## 
+cloud service, encryption, computer security
 
-Let's program some JavaScript:
-``` javascript
-function hello() {
-  return "hello world!"
-}
-```
+## 
+- Wyden is concerned about going after unnumbered computers with one warrant. 
+In cases involving so-called botnets -- networks of computers secretly running 
+malicious software without their owners' knowledge -- the FBI could be remotely 
+accessing scores or hundreds of victims' computers, Wyden says.
+If the amendment finally gives the permission for searching outside the country, Canada may be affected.
 
-~ Note
-The syntax highlighting works in the PDF output too.
-~
+## 
 
-# Conclusion
+Judge shopping is the practice of filing numerous lawsuits that assert the same claim in hopes of having one of the lawsuits heard by a favorable judge.
+Sometimes attorneys attempt to "judge shop" by claiming that is related to a previous case and therefore should be tried by the same judge.
 
-Really fun to write Markdown :-)
 
-[BIB]
+
+ federal officials shopping for favorable judges to grant their warrants, about judges not fully understanding the 
+ implications of warrants, and about U.S. law enforcement unknowingly accessing computers abroad outside of their jurisdiction.
+
+
+
+Defense attorneys in the Freddie Gray case accused prosecutors of judge shopping to get warrants approved to search the defendants' phones.
+The attorneys allege that according to a memo released by prosecutors, that prosecutors shopped around for a judge that would sign a search warrant to obtain the officer’s cell
+ phone records after a Baltimore judge refused to issue a warrant on the first go round.
+
+
+
+
+
+
+
+
+
+
