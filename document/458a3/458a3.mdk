@@ -1,0 +1,74 @@
+Title         : CS458 Assignment 3
+Author        : Yifan Yang  
+Affiliation   : University of waterloo  
+Email         : y369yang@uwaterloo  
+
+
+Doc class     : [7pt]article
+
+
+[TITLE]
+
+
+
+# Question 1     { #sec-intro }
+
+## 
+Figure as below
+~ Figure { #distributed system; caption:"distributed movie web design "; page-align:here }
+![distributed web system]
+~
+[distributed web system]: images/distributed-web-system.png "distributed web system" { width:auto; max-width:120% }
+
+
+## 
+I will put on the centralized authentication server. As indicated by **FW1** Since we only have one firewall we have to put it 
+into some place that can protect all the internec connection in some way. Since all the customer connection, wherever they are and connect to which 
+distributed server, they have to go to centrailzed server for identity authenticaiton. So with a limit budget, we can at least put a 
+a filewall on authentication server and protect the autentication level of user interaction which is madatory to every user.  
+
+## 
+Besides **FW1** talked in part2, I will also add a firewall between webserver and dataserver at each distributed system, as indicated by **FW2** in figure 1.
+Since we have budget now, we also want to protect our movie data. For part2, we can protect our authenticationn process and assure the user loged in 
+is "real" users that have signed up our services. However, after authentication processs, a "real" can still do some inappoparite things. For example, they can 
+access the data and download the movie somehow even we only allow them watch online. Thus only with F1, our data is still not safe enough. We need add another layer of
+protection for our data, which is **FW2**
+
+
+
+
+# Question 2
+
+``` 
+  SELECT SUM(Gold) FROM Players where sercer = PVE
+```
+
+
+# Content
+
+A definition of $e$ is shown in Equation [#euler] proved by Theorem [#th-euler]:
+
+~ Equation { #euler }
+e = \lim_{n\to\infty} \left( 1 + \frac{1}{n} \right)^n
+~
+
+~ Theorem {#th-euler; caption:"Euler's theorem" }
+More math here.
+~
+
+Let's program some JavaScript:
+``` javascript
+function hello() {
+  return "hello world!"
+}
+```
+
+~ Note
+The syntax highlighting works in the PDF output too.
+~
+
+# Conclusion
+
+Really fun to write Markdown :-)
+
+[BIB]
