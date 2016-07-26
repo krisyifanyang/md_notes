@@ -1,6 +1,6 @@
 Title         : CS458 Assignment 3
 Author        : Yifan Yang  
-Affiliation   : University of waterloo  
+Affiliation   : 20543540  
 Email         : y369yang@uwaterloo  
 
 
@@ -146,16 +146,17 @@ The attorneys allege that according to a memo released by prosecutors, that pros
 
 - **3.1 line 5b **  change to : 
 ```
-if O(r|y) = 0 then stop and output(rb−n+1⊕n-1)(rb−(n-1)+1⊕n-2)...(rb-1⊕1)(rb⊕n)
+if O(r|y) = 0 then stop and output(rb−n+1 XOR n-1)(rb−(n-1)+1 XOR n-2)
+...(rb-1 XOR 1)(rb XOR n)
 ```
 - **3.2 line 1 **  change to : 
 ```
-rk= ak ⊕ (b-k)   for k = j.....b-1
-rk= b-j+2        for k = b
+rk= ak XOR (b-k)   for k = j.....b-1
+rk= b-j+2          for k = b
 ```
 - **3.2 line 5 **  change to : 
 ```
-output rj-1 ⊕ i ⊕ (b-j+1)
+output rj-1 XOR i XOR (b-j+1)
 ```
 
 
