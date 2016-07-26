@@ -83,54 +83,41 @@ if result is 1 then means yes, if 0 then means no. So we just need to take 20 bi
 # Question 3
 ## 
 
-1. he problem with current rules, DOJ says, is that judges can only issue warrants to search property in their districts,
- or in crimes that involve their districts.
-When a computer or device involved in a crime is from an unknown or concealed location, 
-investigators should be able to get a warrant to remotely search the devices from any magistrate judge in the country, the rule change says.
+1. **Effective area of warrants is limited while network crimes can be conducted far away** In the article, 
+"When a computer or device involved in a crime is from an unknown or concealed location, 
+investigators should be able to get a warrant to remotely search the devices from any magistrate judge in the country" illustrate this point
 
-2. This amendment ensures that courts can be asked to review warrant applications in situations where is 
-it currently unclear what judge has that authority. 
-
-3. Regarding botnets, DOJ says it needs the change to be able to effectively bring down the malicious networks without having to go to judges all over the country in a time-consuming process.
+2. **Reduce the time-consuming process for judge issuing or modifying a warrent ** Article say "This amendment ensures that courts can be asked to review warrant applications in situations where is 
+it currently unclear what judge has that authority. " is a good support for this point. Also,  Regarding botnets, DOJ says "it needs the change to be able to effectively bring down the malicious networks without having to go to judges all over the country in a time-consuming process."
 
 
 
 ## 
+1. This means that criminal can use P2P protocol or proxy and etc. to mask their real ip address in order to hide their identity. 
+2. For police to get involved, they in order to the real identity of the criminal, they may need to go through many proxies whose geo locations are 
+not inside the warrant area 
 
-p2p mask ip
-proxy to hide ip address and identity
- In other words, if you can’t delete all you online info, you can create several identities and create as much confusion as possible surrounding who you really are.
 
 ## 
-cloud service, encryption, computer security
+1. **cloud service:** users data in cloud service maybe easier get investaged by police since the new amendment purposes to increase the scope and coverage of the warrant. 
+2. **encryption:**  Since the scope and coverage of the warrant may be increased, in order to protect sensitive data not leak (even to police), higher encrption standard need to be appiled 
+3. **computer security:** If amendment pass, police may have authority to attack and control personal computer if they need and get warrant, so individuals can do more thing on computer security.
 
 ## 
-- Wyden is concerned about going after unnumbered computers with one warrant. 
-In cases involving so-called botnets -- networks of computers secretly running 
-malicious software without their owners' knowledge -- the FBI could be remotely 
-accessing scores or hundreds of victims' computers, Wyden says.
-If the amendment finally gives the permission for searching outside the country, Canada may be affected.
+1. **police maybe get the authority to investgate unnumbered computers with one warrant, computer security is compromised: **
+supported by article: "When you're letting the government to get a single warrant to hack into an unnumbered amount of computers across 
+immeasurable districts, you're not talking about....."
 
-When you're letting the government to get a single warrant to hack into an unnumbered amount of computers across 
-immeasurable districts, you're not talking about a 
-
-
-FBI last summer about federal law enforcement's use of spyware, software that can be surreptitiously installed on Americans' 
-devices to track their activity, in the context of the FBI seeking the changes to Rule 41 to let spyware be deployed more easily.
+2. **police maybe get the authority to deploy spyware:** In Article we can find that:" FBI last summer about federal law enforcement's use of spyware, software that can be surreptitiously installed on Americans' 
+devices to track their activity, in the context of the FBI seeking the changes to Rule 41 to let spyware be deployed more easily."
 
 ## 
 
-Judge shopping is the practice of filing numerous lawsuits that assert the same claim in hopes of having one of the lawsuits heard by a favorable judge.
+1. **Definition:**Judge shopping is the practice of filing numerous lawsuits that assert the same claim in hopes of having one of the lawsuits heard by a favorable judge.
 Sometimes attorneys attempt to "judge shop" by claiming that is related to a previous case and therefore should be tried by the same judge.
 
 
-
- federal officials shopping for favorable judges to grant their warrants, about judges not fully understanding the 
- implications of warrants, and about U.S. law enforcement unknowingly accessing computers abroad outside of their jurisdiction.
-
-
-
-Defense attorneys in the Freddie Gray case accused prosecutors of judge shopping to get warrants approved to search the defendants' phones.
+2. **Example:** Defense attorneys in the Freddie Gray case accused prosecutors of judge shopping to get warrants approved to search the defendants' phones.
 The attorneys allege that according to a memo released by prosecutors, that prosecutors shopped around for a judge that would sign a search warrant to obtain the officer’s cell
  phone records after a Baltimore judge refused to issue a warrant on the first go round.
 
