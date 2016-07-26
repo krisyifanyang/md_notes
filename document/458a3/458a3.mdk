@@ -58,8 +58,10 @@ will fall between $k$ to $N-k$ since  $\frac{1}{8} < \frac{1}{2} < 1-\frac{1}{8}
 
 **Three queries:**
 ``` 
-  q( C or T )    = SELECT SUM(Gold) FROM Players where Server = "PVE" or Username = "XdarksephirothX"
-  q( C or not T) = SELECT SUM(Gold) FROM Players where Server = "PVP" or Username = "XdarksephirothX"
+  q( C or T )    = SELECT SUM(Gold) FROM Players 
+  where Server = "PVE" or Username = "XdarksephirothX"
+  q( C or not T) = SELECT SUM(Gold) FROM Players 
+  where Server = "PVP" or Username = "XdarksephirothX"
   q( S )         = SELECT SUM(Gold) FROM Players
   XdarksephirothX's gold =  q( C or T ) +q( C or not T) - q( S ) 
 ```
@@ -69,8 +71,10 @@ tracker and assumption: same as 2.1
 
 **Three queries:**
 ``` 
- q( C or T )    = SELECT COUNT(*) FROM Players where (Server=PVE or Username=doomlaser) and Gold>10 billion
- q( C or not T) = SELECT COUNT(*) FROM Players where (Server=PVP or Username=doomlaser) and Gold>10 billion
+ q( C or T )    = SELECT COUNT(*) FROM Players where 
+ (Server=PVE or Username=doomlaser) and Gold>10 billion
+ q( C or not T) = SELECT COUNT(*) FROM Players where 
+ (Server=PVP or Username=doomlaser) and Gold>10 billion
  q( S )         = SELECT COUNT(*) FROM Players where Gold > 10 billion
 ```
 so by doing  $q( C or T ) +q( C or not T) - q( S )$  we actually only query for doomlaser and ask "whether doomlaser's gold is more than 10 billion or not?"
@@ -136,18 +140,36 @@ The attorneys allege that according to a memo released by prosecutors, that pros
 # Question 4
 ## 
 
-**average case** =   bytes in block $*$ number of block(N)$*$ different combination per byte /2 
+- **average case** =   bytes in block $*$ number of block(N)$*$ different combination per byte /2 
                    = 256$*$16/2$*$N=2048N
 
-**worst case** =   bytes in block $*$ number of block(N)$*$ different combination per byte 
+- **worst case** =   bytes in block $*$ number of block(N)$*$ different combination per byte 
 = 256$*$16$*$N=4096N
 
 ## 
-
+ - use **Message Authentication Codes**.
+ - **reason:**after server generate the encrypted text, it applys MAC algo to get the key hash this encrypted key again. Attack by padding in CBC mode need the encrypted text to XOR with intermediate string to decrypt,
+ Now attacker cannot get orginnal encryptyed text since it has been hashed again so they cannot do padding even if they know padding information and get server respond. Also server can use the key to check the correctness of the cookie, 
+ to make sure it's not modified
+ 
+ - **Integrity** since server can use the key to check the correctness of the cookie, to make sure it's not modified. **Authenticity** since user can use the key to check the authenticity of the cookie, like whether this cookie is really sent by this server 
 
 
 ## 
 
+- **3.1 line 5b **  change to : 
+```
+if O(r|y) = 0 then stop and output(rb−n+1⊕n-1)(rb−(n-1)+1⊕n-2)...(rb-1⊕1)(rb⊕n)
+```
+- **3.2 line 1 **  change to : 
+```
+rk= ak ⊕ (b-k)   for k = j.....b-1
+rk= b-j+2        for k = b
+```
+- **3.2 line 5 **  change to : 
+```
+output rj-1 ⊕ i ⊕ (b-j+1)
+```
 
 
 ## 
@@ -166,7 +188,8 @@ The attorneys allege that according to a memo released by prosecutors, that pros
     for x in range(0, 15):
       old = IVguess[x]
       IVguess[x] = IVguess[x] ^ 1
-      header = {"Cookie" : 'user="' + (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
+      header = {"Cookie" : 'user="' + 
+      (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
       my_request = urllib2.Request("http://localhost:4555", None, header)
       try:
         my_response = urllib2.urlopen(my_request)
@@ -183,7 +206,8 @@ The attorneys allege that according to a memo released by prosecutors, that pros
     #print ('ddd')
     for x in range(0, 256): 
       IVguess[byte] = x
-      header = {"Cookie" : 'user="' + (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
+      header = {"Cookie" : 'user="' +
+      (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
       my_request = urllib2.Request("http://localhost:4555", None, header)
       try:
         my_response = urllib2.urlopen(my_request)
@@ -201,7 +225,8 @@ The attorneys allege that according to a memo released by prosecutors, that pros
         return
       else:
         # divide to chunks
-        cookie_block = list((cookie_block[0+k : SIZE_OF_BLOCK+k] for k in range(0, len(cookie_block), SIZE_OF_BLOCK)))
+        cookie_block = list((cookie_block[0+k : SIZE_OF_BLOCK+k] 
+        for k in range(0, len(cookie_block), SIZE_OF_BLOCK)))
         previous_real_IV = cookie_block[0]
   
         plaintexts = ''
@@ -285,7 +310,8 @@ SIZE_OF_BLOCK=16
 def send_padding_request(byte,IVguess,blk):
     for x in range(0, 256):
         IVguess[byte] = x
-        header = {"Cookie" : 'user="' + (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
+        header = {"Cookie" : 'user="' + 
+        (base64.b64encode(''.join(map(chr,IVguess)) + blk)) + '"'}
         my_request = urllib2.Request("http://localhost:4555", None, header)
         try:
             my_response = urllib2.urlopen(my_request)
@@ -296,7 +322,8 @@ def send_padding_request(byte,IVguess,blk):
 
 def encrypt(Word):
 
-    word_to_use = list((Word[0+k : SIZE_OF_BLOCK+k] for k in range(0, len(Word), SIZE_OF_BLOCK)))
+    word_to_use = list((Word[0+k : SIZE_OF_BLOCK+k] 
+    for k in range(0, len(Word), SIZE_OF_BLOCK)))
 
     #fisrt_randomly select a block of encrypt text to initialze encryption
     next_block= '\xf6\x1aJk\x00\xcf\xd1d"\x9d\xa2\x90\x0bi*\x1c'
