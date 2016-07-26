@@ -23,17 +23,19 @@ Figure as below
 
 
 ## 
-I will put on the centralized authentication server. As indicated by **FW1** Since we only have one firewall we have to put it 
-into some place that can protect all the internec connection in some way. Since all the customer connection, wherever they are and connect to which 
-distributed server, they have to go to centrailzed server for identity authenticaiton. So with a limit budget, we can at least put a 
-a filewall on authentication server and protect the autentication level of user interaction which is madatory to every user.  
+I will put on the centralized authentication server. As indicated by **FW1** Since we only have one firewall so we have to put it 
+into some place that can protect all the internet connection in some way. Since all the customer connection, wherever they are and connect to which 
+distributed server, they have to go to visit centralized server for identity authentication. So with a limit budget, we can at least put a 
+a firewall on authentication server and protect the authentication level which is mandatory to every user.  For firewall, **I will choose proxy** since it is not as transparent as packet filtering or stateful
+inspection, which means it has stronger and more customizable features. And it can also limit types of allowed database queries, which essential for User info database we want to protect here
 
 ## 
 Besides **FW1** talked in part2, I will also add a firewall between webserver and dataserver at each distributed system, as indicated by **FW2** in figure 1.
-Since we have budget now, we also want to protect our movie data. For part2, we can protect our authenticationn process and assure the user loged in 
-is "real" users that have signed up our services. However, after authentication processs, a "real" can still do some inappoparite things. For example, they can 
+Since we have budget now, we also want to protect our movie data. from part2, by setting up a firewall at the centrailzed authentication server, we can protect our authenticationn process and assure the users logged in 
+are "real users"" that have signed up for our services. However, after authentication processs, a "real user" can still do some inappoparite things. For example, they can 
 access the data and download the movie somehow even we only allow them watch online. Thus only with F1, our data is still not safe enough. We need add another layer of
-protection for our data, which is **FW2**
+protection for our data, which is **FW2**. **I will choose Packet filtering gateways** since we only need to check the head of packet to find out where a particular transfer request come from and go: if users 
+if users want a data packet to go to webserver they login so they can watch online, we allow;  however, if they want data to go to their local machine, we prohibit.
 
 
 
@@ -61,6 +63,19 @@ will fall between $k$ to $N-k$ since  $\frac{1}{8} < \frac{1}{2} < 1-\frac{1}{8}
   q( S )         = SELECT SUM(Gold) FROM Players
   XdarksephirothX's gold =  q( C or T ) +q( C or not T) + q( S ) 
 ```
+
+## 
+tracker and assumption: same as 2.1
+
+**Three queries:**
+``` 
+  q( C or T )    = SELECT COUNT(*) FROM Players where Server = PVE or Username = XdarksephirothX
+  q( C or not T) = SELECT COUNT(*) FROM Players where Server = PVP or Username = XdarksephirothX
+  q( S )         = SELECT COUNT(*) FROM Players
+  XdarksephirothX's gold =  q( C or T ) +q( C or not T) + q( S ) 
+```
+
+
 
 
 # Question 3
